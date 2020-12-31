@@ -6,9 +6,10 @@ namespace ConsoleApp12
     {
         static void Main(string[] args)
         {
-            string[] vremya = new string[1000];
-            
-            int jopa = 0;
+            string[] vremya = new string[1];
+
+            int counter = 0;
+            int N = 0; //проверка на високосность года
             int[][] arr = new int[12][];
             arr[0] = new int[31];//январь
             arr[1] = new int[29];
@@ -22,6 +23,54 @@ namespace ConsoleApp12
             arr[9] = new int[31];
             arr[10] = new int[30];
             arr[11] = new int[31];//декабрь
+            FillArrayPlusOne(arr);// запуск метода для заполнения массива 
+            int Year = 0; 
+
+            while (Year != 99)
+            {
+                for (int i = 0; i < 12; i++)
+                {
+                    if (Year % 4 == 0)
+                        N = 0;
+                    else
+                        N = 1;
+                    checkingNumberPiphagore(arr, i, Year, ref vremya, ref counter, N);
+                }
+                Year += 1;
+                
+            }
+            WriteArray(vremya);
+            Console.ReadLine();
+        }
+        private static void checkingNumberPiphagore(int[][]arr,int i,int Year,ref string[]vremya, ref int Counter, int N)
+        {
+            for (int j = 0; j < arr[i].Length - N; j++)
+            {
+                if ((j + 1) * (j + 1) + (i + 1) * (i + 1) == (Year * Year))
+                {
+                    vremya=IncrArray(vremya);
+                    vremya[Counter] = "День: " + (j + 1) + "; Месяц: " + (i + 1) + "; Год: " + Year;
+                    Counter += 1;
+                }
+            }
+        }
+        public static string[] IncrArray(string []arr)
+        {
+            string[] Temp = new string[arr.Length+1];
+            for (int i = 0; i < arr.Length; i++)
+                Temp[i] = arr[i];
+            return Temp;
+        }
+        private static void WriteArray(string[] vremya)
+        {
+            for (int i = 0; i < vremya.Length; i++)
+            {
+                Console.WriteLine(vremya[i]);
+            }
+        }
+
+        private static void FillArrayPlusOne(int[][] arr)
+        {
             for (int i = 0; i < 12; i++)
             {
                 for (int j = 0; j < arr[i].Length; j++)
@@ -29,55 +78,6 @@ namespace ConsoleApp12
                     arr[i][j] = j + 1;
                 }
             }
-            int Year = 0;
-            
-            while (Year != 99)
-            {
-                for (int i = 0; i < 12; i++)
-                {
-                    if (Year % 4== 0)
-                    {
-                        for (int j = 0; j < arr[i].Length; j++)
-                        {
-                            if ((j + 1) * (j + 1) + (i + 1) * (i + 1) == (Year *Year))
-                            {
-                                if (jopa < vremya.Length)
-                                {
-                                    vremya[jopa] = "День: " + (j + 1) + "; Месяц: " + (i + 1) + "; Год: " + Year;
-                                    jopa += 1;
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        for (int j = 0; j < arr[i].Length - 1; j++)
-                        {
-                            if ((j + 1)* (j + 1) + (i + 1)* (i + 1) == ( Year * Year))
-                            {
-                                if (jopa < vremya.Length)
-                                {
-                                    vremya[jopa] = "День: " + (j + 1) + "; Месяц: " + (i + 1) + "; Год: " + Year;
-                                    jopa += 1;
-                                }
-                            }
-                        }
-                    }
-                }
-
-
-
-                Year += 1;
-            }
-            for (int i=0;i<vremya.Length;i++)
-            {
-                Console.WriteLine(vremya[i]);
-            }
-            
-            Console.ReadLine();
-
-
         }
-        
     }
 }
